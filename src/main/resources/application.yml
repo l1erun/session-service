@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: session-service
+
 redis:
     host: localhost
     port: 6379
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
