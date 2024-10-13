@@ -69,4 +69,8 @@ public class SessionService {
         } while (gameSessionRepository.findGameSessionByPinAndStatusSession(pin, WAITING_FOR_PLAYERS).isPresent());
         return pin;
     }
+
+    public void startSession(GameSession session){
+        
+    }
 }

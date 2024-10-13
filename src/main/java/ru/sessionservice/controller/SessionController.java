@@ -1,7 +1,9 @@
 package ru.sessionservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import ru.sessionservice.entity.GameSession;
 import ru.sessionservice.service.SessionService;
@@ -26,6 +28,11 @@ public class SessionController {
         return sessionService.createSession();
     }
 
+    @PostMapping("/start")
+    public void startSession(@Valid @RequestBody GameSession gameSession){
+        sessionService.startSession(gameSession);
+    }
+
     /**
      * Получает информацию о сессии.
      */
@@ -38,7 +45,7 @@ public class SessionController {
     /**
      * Обновляет время последней активности сессии.
      */
-    @PutMapping("/{pin}/addUser/{userId}")
+    @PostMapping("/{pin}/addUser/{userId}")
     public GameSession refreshSession(@PathVariable String pin, @PathVariable String userId) {
         return sessionService.addUserInSession(pin, userId);
     }

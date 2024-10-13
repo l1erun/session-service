@@ -9,6 +9,9 @@ redis:
     host: localhost
     port: 6379
 
+jwt:
+  secret: hKfYbV1L1LwzFX2Yw8hEHyTj3E4xjV5SyJ6eR3Jg+oE=
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
