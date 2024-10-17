@@ -14,7 +14,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        // Настройка подключения к Redis
         return new LettuceConnectionFactory();
     }
 

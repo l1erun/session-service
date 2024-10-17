@@ -29,8 +29,8 @@ public class SessionController {
     }
 
     @PostMapping("/start")
-    public void startSession(@Valid @RequestBody GameSession gameSession){
-        sessionService.startSession(gameSession);
+    public void startSession(@RequestBody UUID gameSessionId) {
+        sessionService.startSession(gameSessionId);
     }
 
     /**
@@ -47,6 +47,8 @@ public class SessionController {
      */
     @PostMapping("/{pin}/addUser/{userId}")
     public GameSession refreshSession(@PathVariable String pin, @PathVariable String userId) {
+        System.out.println(pin);
+        System.out.println(userId);
         return sessionService.addUserInSession(pin, userId);
     }
 
