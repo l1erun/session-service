@@ -3,6 +3,7 @@ package ru.sessionservice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sessionservice.dto.AuthResponse;
+import ru.sessionservice.dto.GameSessionRequest;
 import ru.sessionservice.entity.GameSession;
 import ru.sessionservice.repository.GameSessionRepository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -78,20 +79,17 @@ public class SessionService {
     }
 
     public void startSession(UUID sessionId) {
-        System.out.println("!!"+sessionId);
-//        GameSession session  = gameSessionRepository.findById(sessionId).get();
-//        GameSessionRequest gameSessionRequest = new GameSessionRequest();
-//        gameSessionRequest.setId(session.getSessionId());
-//        System.out.println(session.getUserIdList());// Устанавливаем ID сессии
-//        gameSessionRequest.setPlayers(session.getUserIdList()); // Устанавливаем ID сессии
-
+        GameSession gameSession = gameSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new NoSuchElementException("Сессия не найдена"));
         AuthResponse authResponse = authenticate("test", "root");
         String jwtToken = authResponse.getType() + " " + authResponse.getToken();
-//        System.out.println(gameSessionRequest);
+        GameSessionRequest gameSessionRequest = new GameSessionRequest();
+        gameSessionRequest.setId(gameSession.getSessionId());
+        gameSessionRequest.setPlayers(gameSession.getUserIdList());
         webClient.post()
-                .uri("http://localhost:8080/games") // URL микросервиса профиля
+                .uri("http://localhost:8080/games/" + sessionId + "/start") // URL микросервиса профиля
                 .header("Authorization", jwtToken) // Добавляем JWT токен в заголовок
-                .bodyValue(sessionId)
+                .bodyValue(gameSessionRequest)
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block(); // Блокирующий вызов
